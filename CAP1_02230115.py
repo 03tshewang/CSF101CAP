@@ -9,43 +9,42 @@
 #https://www.geeksforgeeks.org/python-programming-language/
 ############################################
 #SOLUTION
-#Solution score:49995
+#Solution score:49977
 #input_5_cap1.txt
 ############################################
 
 
 
-
-#function to read the input.txt file and extract the number of rounds
+#function to read input.txt file and the number of rounds
 def read_input(file_path):
-    #initialize empty list to store number of rounds
-    no_of_rounds= []
-    #open input file to read
-    with open(file_path,'r') as file:
-        #iterate through each line in file
-        for line in file:
-            #split each line and extract opponent_choice and your_response
-            opponent_choice, your_response = line.split()
-            #append opponent_choice and your_response to the list of no_of_rounds
-            no_of_rounds.append((opponent_choice,your_response))
-        return no_of_rounds
+    #oprn input file to read
+    with open(file_path, 'r') as file:
+        #iterate and split each line and create tuple containing opponent_choice and your_response
+        #stores all tuples in a list and return it
+        return [tuple(line.split()) for line in file]
 
-#function to calculate total score
+#function to Calculate final score
 def calculate_score(no_of_rounds):
-    score = 0
-    #create dictionaries to assign score to opponent_choice and your_response
-    opponent_choice_score = {'A':1, 'B':2, 'C':3}
-    your_response_score = {'X':0, 'Y':3, 'Z':6}
-    
-    #iterate through list of no_of_rounds
+    #initialize total score to 0
+    total_score = 0
+    #iteterate through each round in list of rounds 
     for opponent_choice, your_response in no_of_rounds:
-        #score increment by sum of opponent_choice_score and your_response_score
-        score += opponent_choice_score.get(opponent_choice, 0) + your_response_score.get(your_response, 0)
-    return score
+        # Determine the score based on opponent_choice and your_response using conditional operator
+        if opponent_choice == "A":
+            score = 3 if your_response == "X" else 4 if your_response == "Y" else 8
+        elif opponent_choice == "B":
+            score = 1 if your_response == "X" else 5 if your_response == "Y" else 9
+        elif opponent_choice == "C":
+            score = 2 if your_response == "X" else 6 if your_response == "Y" else 7
+        #total score increment by score
+        total_score += score
+    return total_score
 
-#call read_input function to read file and extract number of rounds assigning to new variable
+#call read_input function to Read the input file
 extract_file = read_input('input_5_cap1.txt')
-#call total_score function to calculate total score assigning to new variable
-total_score = calculate_score(extract_file)
-#print total score
-print("Total score:", total_score)
+
+#call calculate_score function to Calculate the final score
+final_score = calculate_score(extract_file)
+
+# Print the total score
+print("Total score:", final_score)
